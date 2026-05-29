@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Myanmar Traditional Festivals Quiz</title>
+    <style>
+        body { 
+            font-family: 'Segoe UI', sans-serif; 
+            text-align: center; 
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%); 
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 0;
+        }
+        .container { 
+            max-width: 500px; 
+            background: white; 
+            padding: 30px; 
+            border-radius: 20px; 
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2); 
+        }
+        h1 { color: #2c3e50; margin-bottom: 20px; }
+        button { 
+            display: block; 
+            width: 100%; 
+            padding: 15px; 
+            margin: 10px 0; 
+            cursor: pointer; 
+            border: none; 
+            background: #3498db; 
+            color: white; 
+            border-radius: 10px; 
+            font-size: 16px; 
+            transition: transform 0.2s, background 0.3s;
+        }
+        button:hover { background: #2980b9; transform: scale(1.02); }
+    </style>
+</head>
+<body>
+    <div class="container" id="game">
+        <h1>🇲🇲 Myanmar Festivals Quiz</h1>
+        <div id="quiz">
+            <h3 id="question">Loading...</h3>
+            <div id="answers"></div>
+        </div>
+    </div>
+
+    <script>
+        const quizData = [
+            { q: "What do people offer to the Buddha during the Thadingyut Festival?", a: ["Oil lamps", "Water", "Flowers", "Incense"], correct: 0 },
+            { q: "What is the main activity during the Thingyan festival?", a: ["Water splashing", "Flying lanterns", "Offering alms", "Sand pagodas"], correct: 0 },
+            { q: "What merit is performed on Tazaungmon Full Moon Day?", a: ["Weaving robes", "Water splashing", "Lighting lamps", "Sand pagodas"], correct: 0 },
+            { q: "Which festival is celebrated during Tabaung?", a: ["Sand Pagoda Festival", "Fire Balloon", "Light Festival", "Thingyan"], correct: 0 },
+            { q: "How many major traditional festivals are in a Myanmar year?", a: ["12", "10", "8", "6"], correct: 0 }
+        ];
+
+        let currentQ = 0, score = 0;
+        function loadQ() {
+            if(currentQ < quizData.length) {
+                document.getElementById("question").innerText = quizData[currentQ].q;
+                const ansDiv = document.getElementById("answers");
+                ansDiv.innerHTML = "";
+                quizData[currentQ].a.forEach((opt, i) => {
+                    let btn = document.createElement("button");
+                    btn.innerText = opt;
+                    btn.onclick = () => {
+                        if(i === quizData[currentQ].correct) score++;
+                        currentQ++;
+                        loadQ();
+                    };
+                    ansDiv.appendChild(btn);
+                });
+            } else {
+                document.getElementById("game").innerHTML = `<h2>Quiz Completed!</h2><p style="font-size: 20px;">Your Score: <b>${score} / ${quizData.length}</b></p><button onclick="location.reload()">Try Again</button>`;
+            }
+        }
+        loadQ();
+    </script>
+</body>
+</html>
